@@ -21,38 +21,31 @@ print(df)
 # st.title("Hello world!")
 st.write(df)
 rankings = 10
-rankings = st.selectbox('Rankings to be disaplayed ?',(5,10,15,20),1)
+rankings = st.selectbox('Rankings to be disaplayed ?',(5,10,15,20,25,30),1)
 
 bg_select = "quality_of_life"
 bg_option = ('quality_of_life','purchasing_power_index','safety_index','health_care_index','cost_of_living_index','property_price_to_income_ratio','traffic_commute_time_index','pollution_index','climate_index')
 bg_select = st.selectbox('Rankings to be disaplayed ?',bg_option,0)
 
 
+y_label = ' '.join(bg_select.split('_')).title()
 val_count  = df[bg_select][:rankings]
 fig = plt.figure(figsize=(10,5))
-sns.barplot(val_count.index+1, val_count.values)
-plt.title(f"TOP {rankings} rankings According to {' '.join(bg_select.split('_')).title()}")
-plt.xlabel('Rank')
-plt.ylabel(bg_select)
+sns.barplot(df.iloc[val_count.index,1], val_count.values)
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.title(f"TOP {rankings} rankings According to {y_label}")
+plt.xlabel('Country')
+plt.ylabel(y_label)
 st.pyplot(fig)
 
 val_count  = df[bg_select][-rankings:]
 fig = plt.figure(figsize=(10,5))
-sns.barplot(val_count.index+1, val_count.values)
-plt.title(f"BOTTOM {rankings} rankings According to {' '.join(bg_select.split('_')).title()}")
-plt.xlabel('Rank')
-plt.ylabel(bg_select)
+sns.barplot(df.iloc[val_count.index,1], val_count.values)
+plt.xticks(rotation=70)
+plt.tight_layout()
+plt.title(f"BOTTOM {rankings} rankings According to {y_label}")
+plt.xlabel('Country')
+plt.ylabel(y_label)
 st.pyplot(fig)
 
-# fig, ax = plt.subplots()
-# df.hist(
-#     bins=8,
-#     column="health_care_index",
-#     grid=False,
-#     figsize=(8, 8),
-#     zorder=2,
-#     rwidth=0.9,
-#     ax=ax, 
-#   )
-
-# st.write(fig)
